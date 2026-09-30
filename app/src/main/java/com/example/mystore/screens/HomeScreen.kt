@@ -26,10 +26,16 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("متجري", fontWeight = FontWeight.Bold) },
+                title = {
+                    Text(
+                        text = "متجري",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 22.sp
+                    )
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = Color.White
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             )
         }
@@ -43,20 +49,29 @@ fun HomeScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(products) { product ->
-                ProductCard(product = product, onClick = { onProductClick(product) })
+                ProductCard(
+                    product = product,
+                    onClick = { onProductClick(product) }
+                )
             }
         }
     }
 }
 
 @Composable
-fun ProductCard(product: Product, onClick: () -> Unit) {
+fun ProductCard(
+    product: Product,
+    onClick: () -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick() },
         shape = RoundedCornerShape(14.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        )
     ) {
         Row(
             modifier = Modifier
@@ -64,7 +79,7 @@ fun ProductCard(product: Product, onClick: () -> Unit) {
                 .padding(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // صورة افتراضية (حرف أول من الاسم داخل مربع ملون)
+            // مربع الصورة الافتراضية (الحرف الأول من الاسم)
             Box(
                 modifier = Modifier
                     .size(80.dp)
@@ -74,27 +89,28 @@ fun ProductCard(product: Product, onClick: () -> Unit) {
             ) {
                 Text(
                     text = product.name.first().toString(),
-                    fontSize = 32.sp,
+                    fontSize = 34.sp,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
 
-            Spacer(modifier = Modifier.width(12.dp))
+            Spacer(modifier = Modifier.width(14.dp))
 
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = product.name,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 17.sp
+                    fontSize = 17.sp,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = product.category,
                     fontSize = 13.sp,
-                    color = Color.Gray
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                Spacer(modifier = Modifier.height(6.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "${product.price} د.م",
                     color = MaterialTheme.colorScheme.primary,
