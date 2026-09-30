@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import com.example.mystore.data.Product
 
 // ⚠️ غيّر رقم الواتساب هنا (بصيغة دولية بدون + وبدون مسافات)
-private const val WHATSAPP_NUMBER = "212600000000"
+private const val WHATSAPP_NUMBER = "212638784945"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
