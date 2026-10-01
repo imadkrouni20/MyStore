@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.example.mystore.data.ProductRepository
 import com.example.mystore.navigation.AppNavigation
 import com.example.mystore.ui.theme.MyStoreTheme
 
@@ -24,13 +25,15 @@ class MainActivity : ComponentActivity() {
                 WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
 
+        val repository = ProductRepository(applicationContext)
+
         setContent {
             MyStoreTheme(darkTheme = true) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AppNavigation()
+                    AppNavigation(repository)
                 }
             }
         }
