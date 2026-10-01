@@ -60,8 +60,8 @@ fun HomeScreen(
     ) {
         VerticalPager(
             state = pagerState,
-            modifier = Modifier.fillMaxSize(),
-            userScrollEnabled = false   // منع السحب العمودي ليتفاعل مع 3D
+            modifier = Modifier.fillMaxSize()
+            // ✅ userScrollEnabled محذوف = السحب مفعّل افتراضياً
         ) { page ->
             val product = products[page]
             ProductFullPage(
@@ -70,6 +70,7 @@ fun HomeScreen(
             )
         }
 
+        // زر إدارة السلع (أسفل يسار)
         FloatingActionButton(
             onClick = onManageClick,
             modifier = Modifier
@@ -81,6 +82,7 @@ fun HomeScreen(
             Icon(Icons.Default.Settings, contentDescription = "إدارة السلع")
         }
 
+        // مؤشر الصفحة (أسفل يمين)
         Surface(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
@@ -108,7 +110,7 @@ fun ProductFullPage(product: Product, onOrder: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // ═══════════════════════════════════════════
-        // عارض ثلاثي الأبعاد (يأخذ 55% من الشاشة)
+        // عارض ثلاثي الأبعاد
         // ═══════════════════════════════════════════
         Box(
             modifier = Modifier

@@ -29,6 +29,12 @@ fun ModelViewer(
                 settings.displayZoomControls = false
                 settings.mediaPlaybackRequiresUserGesture = false
 
+                // ⚡ الإعدادات الحاسمة لعرض النماذج الخارجية
+                @Suppress("DEPRECATION")
+                settings.allowFileAccessFromFileURLs = true
+                @Suppress("DEPRECATION")
+                settings.allowUniversalAccessFromFileURLs = true
+
                 webViewClient = WebViewClient()
 
                 val encoded = Uri.encode(modelPath)
