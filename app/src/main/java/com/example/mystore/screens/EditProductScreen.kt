@@ -26,6 +26,7 @@ fun EditProductScreen(
     var category by remember { mutableStateOf(product?.category ?: "") }
     var description by remember { mutableStateOf(product?.description ?: "") }
     var priceText by remember { mutableStateOf(product?.price?.toString() ?: "") }
+    var modelPath by remember { mutableStateOf(product?.modelPath ?: "") }
     var error by remember { mutableStateOf("") }
 
     Scaffold(
@@ -86,6 +87,15 @@ fun EditProductScreen(
             )
 
             OutlinedTextField(
+                value = modelPath,
+                onValueChange = { modelPath = it },
+                label = { Text("رابط النموذج ثلاثي الأبعاد") },
+                placeholder = { Text("https://example.com/model.glb") },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp)
+            )
+
+            OutlinedTextField(
                 value = description,
                 onValueChange = { description = it },
                 label = { Text("الوصف") },
@@ -117,14 +127,15 @@ fun EditProductScreen(
                                 name = name.trim(),
                                 category = category.trim(),
                                 description = description.trim(),
-                                price = price
+                                price = price,
+                                modelPath = modelPath.trim()
                             ) ?: Product(
                                 id = 0,
                                 name = name.trim(),
                                 category = category.trim(),
                                 description = description.trim(),
                                 price = price,
-                                imageUrl = ""
+                                modelPath = modelPath.trim()
                             )
                             onSave(newProduct)
                         }

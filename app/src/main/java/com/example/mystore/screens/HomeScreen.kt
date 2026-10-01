@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mystore.data.Product
 import com.example.mystore.data.orderViaWhatsApp
+import com.example.mystore.ui.ModelViewer
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -44,9 +45,7 @@ fun HomeScreen(
                     color = MaterialTheme.colorScheme.onBackground
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = onManageClick) {
-                    Text("إضافة سلع")
-                }
+                Button(onClick = onManageClick) { Text("إدارة السلع") }
             }
         }
         return
@@ -61,7 +60,8 @@ fun HomeScreen(
     ) {
         VerticalPager(
             state = pagerState,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            userScrollEnabled = false   // منع السحب العمودي ليتفاعل مع 3D
         ) { page ->
             val product = products[page]
             ProductFullPage(
@@ -70,7 +70,6 @@ fun HomeScreen(
             )
         }
 
-        // زر إدارة السلع - أسفل يمين
         FloatingActionButton(
             onClick = onManageClick,
             modifier = Modifier
@@ -82,7 +81,6 @@ fun HomeScreen(
             Icon(Icons.Default.Settings, contentDescription = "إدارة السلع")
         }
 
-        // مؤشر الصفحة - أسفل يسار
         Surface(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
@@ -106,76 +104,89 @@ fun ProductFullPage(product: Product, onOrder: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 24.dp, vertical = 40.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+            .padding(horizontal = 20.dp, vertical = 30.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // صورة كبيرة (الحرف الأول)
+        // ═══════════════════════════════════════════
+        // عارض ثلاثي الأبعاد (يأخذ 55% من الشاشة)
+        // ═══════════════════════════════════════════
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(1f)
-                .clip(RoundedCornerShape(28.dp))
-                .background(MaterialTheme.colorScheme.primaryContainer),
-            contentAlignment = Alignment.Center
+                .weight(1.3f)
+                .clip(RoundedCornerShape(24.dp))
+                .background(MaterialTheme.colorScheme.surfaceVariant)
         ) {
-            Text(
-                text = product.name.firstOrNull()?.toString() ?: "?",
-                fontSize = 150.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
+            if (product.modelPath.isNotEmpty()) {
+                ModelViewer(modelPath = product.modelPath)
+            } else {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = product.name.firstOrNull()?.toString() ?: "?",
+                        fontSize = 120.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
         }
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
+        // ═══════════════════════════════════════════
+        // معلومات السلعة
+        // ═══════════════════════════════════════════
         Text(
             text = product.name,
-            fontSize = 30.sp,
+            fontSize = 26.sp,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onBackground
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(6.dp))
 
         Text(
             text = product.category,
-            fontSize = 15.sp,
+            fontSize = 14.sp,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
 
-        Spacer(modifier = Modifier.height(14.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
         Text(
             text = "${product.price} د.م",
-            fontSize = 28.sp,
+            fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary
         )
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(12.dp))
 
         Text(
             text = product.description,
-            fontSize = 15.sp,
+            fontSize = 14.sp,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            lineHeight = 23.sp
+            lineHeight = 21.sp,
+            maxLines = 3
         )
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         Button(
             onClick = onOrder,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(58.dp),
+                .height(56.dp),
             shape = RoundedCornerShape(16.dp)
         ) {
             Text(
                 text = "اطلب الآن",
-                fontSize = 19.sp,
+                fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
             )
         }

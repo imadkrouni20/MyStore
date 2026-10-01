@@ -5,6 +5,6 @@ data class Product(
     val name: String,
     val description: String,
     val price: Double,
-    val imageUrl: String,   // رابط صورة (نستخدم Coil لاحقاً أو نكتفي بالاسم)
-    val category: String
+    val category: String,
+    val modelPath: String = ""   // مسار ملف glb (رابط أو ملف محلي)
 )
