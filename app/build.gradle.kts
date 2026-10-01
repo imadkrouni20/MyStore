@@ -15,11 +15,25 @@ android {
         versionName = "1.0"
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
+    signingConfigs {
+        create("release") {
+            storeFile = rootProject.file("mystore.keystore")
+            storePassword = "Krouni1985"
+            keyAlias = "mystore"
+            keyPassword = "Krouni1985"
         }
     }
+
+    buildTypes {
+        debug {
+            signingConfig = signingConfigs.getByName("release")
+        }
+        release {
+            isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
